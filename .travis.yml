@@ -4,11 +4,11 @@ services: docker
 
 env:
   - DOCKER_USERNAME = kazu1209
-  - DOCKER_ACCESS_TOKEN = a28e71fa-54bf-4021-a280-2423e148ad0d
+  - DOCKER_ACCESS_TOKEN = c964e35f-56ad-4bcd-a715-187ee6cb0ed3
 
 befoer_install:
-  - docker-compose up --build -d
   - docker login -u $DOCKER_USERNAME -p $DOCKER_ACCESS_TOKEN
+  - docker-compose up --build -d
 
 script:
   - docker-compose exec --env 'RAILS_ENV=test' web rails db:create
