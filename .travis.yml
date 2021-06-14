@@ -3,8 +3,9 @@ sudo: required
 services: docker
 
 env:
-  - DOCKER_USERNAME = kazu1209
-  - DOCKER_ACCESS_TOKEN = c964e35f-56ad-4bcd-a715-187ee6cb0ed3
+  parameter-store:
+    DOCKER_USERNAME = kazu1209
+    DOCKER_ACCESS_TOKEN = c964e35f-56ad-4bcd-a715-187ee6cb0ed3
 
 befoer_install:
   - docker login -u $DOCKER_USERNAME -p $DOCKER_ACCESS_TOKEN
