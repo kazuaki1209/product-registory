@@ -10,11 +10,19 @@ services: docker
 befoer_install:
 #  - docker login -u $DOCKER_USERNAME -p $DOCKER_ACCESS_TOKEN
   - echo "$DOCKER_ACCESS_TOKEN" | docker login --username "$DOCKER_USERNAME" --password-stdin
-
-
   - docker-compose up --build -d
-
+  - docker login -u "$HEROKU_USERNAME" -p "$HEROKU_API_KEY" registry.heroku.com
 script:
   - docker-compose exec --env 'RAILS_ENV=test' web rails db:create
   - docker-compose exec --env 'RAILS_ENV=test' web rails db:migrate
   - docker-compose exec --env 'RAILS_ENV=test' web rails test
+
+deply:
+    provider: script
+    script:
+      docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.prod .;
+      docker push registry.heroku.com/$HEROKU_APP_NAME/web;
+      heroku run --app $HEROKU_APP_NAME rails db:migrate;
+    on:
+      branch: master
+      
